@@ -6,9 +6,11 @@ import {
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { CatsService } from './cats.service';
+import { ReadOnlyCatDto } from './dto/cat.dto';
 import { CatRequestDto } from './dto/cats.request.dto';
 
 @Controller('cats')
@@ -17,6 +19,7 @@ import { CatRequestDto } from './dto/cats.request.dto';
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
+  @ApiOperation({ summary: '현재 고양이 가져오기' })
   @Get()
   getCurrentCat() {
     return 'current cat';
@@ -25,22 +28,35 @@ export class CatsController {
   //계층간 데이터 교환을 위한 객체
   //DB에서 데이터를 얻어 Service나 Controller 등으로 보낼 때 사용하는 객체
   //Request와 Response용 DTO는 View를 위한 클래스이다.
+  @ApiResponse({
+    status: 500,
+    description: 'Server Error...',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '성공!',
+    type: ReadOnlyCatDto,
+  })
+  @ApiOperation({ summary: '회원가입' })
   @Post()
   async signUp(@Body() body: CatRequestDto) {
     console.log(body);
     return await this.catsService.signUp(body);
   }
 
+  @ApiOperation({ summary: '로그인' })
   @Post('login')
   logIn() {
     return 'login';
   }
 
+  @ApiOperation({ summary: '로그아웃' })
   @Post('logout')
   logOut() {
     return 'logout';
   }
 
+  @ApiOperation({ summary: '고양이 이미지 업로드' })
   @Post('upload/cats')
   uploadCatImg() {
     return 'uploadImg';
