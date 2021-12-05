@@ -13,9 +13,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
       signOptions: { expiresIn: '1y' },
     }),
     //모듈 전달 참조 => 모듈 순환 종속성을 해결
-    forwardRef(() => {
-      CatsModule;
-    }),
+    forwardRef(() => CatsModule),
   ],
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
