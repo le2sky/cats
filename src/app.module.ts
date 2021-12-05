@@ -5,6 +5,7 @@ import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import * as mongoose from 'mongoose';
 
 @Module({
@@ -15,6 +16,7 @@ import * as mongoose from 'mongoose';
       useUnifiedTopology: true, // 최신 mongodb 드라이버 엔진을 사용하도록 설정
     }),
     CatsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
