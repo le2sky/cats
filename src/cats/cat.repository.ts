@@ -34,4 +34,10 @@ export class CatsRespository {
   async create(cat: CatRequestDto): Promise<Cat> {
     return await this.catModel.create(cat);
   }
+
+  async findCatByWithoutPassword(catId: string): Promise<Cat | null> {
+    //password 빼고
+    const cat = await this.catModel.findById(catId).select('-password');
+    return cat;
+  }
 }
