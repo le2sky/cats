@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { CommentsSchema } from 'src/comments/comments.schme';
 import { Cat } from './cats.schema';
 import { CatRequestDto } from './dto/cats.request.dto';
+import * as mongoose from 'mongoose';
 /*
 Service에는 비즈니스 로직을 구현하는데
 만약 DB 관련 작업이나 다른 작업들이 복잡해지면
@@ -22,7 +24,14 @@ export class CatsRespository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
   async findAll() {
-    return await this.catModel.find();
+    const CommentsModel = mongoose.model('comments', CommentsSchema);
+
+    //populate로 다른 document랑 이어줌
+    const result = await this.catModel
+      .find()
+      .populate('comments', CommentsModel);
+
+    return await result;
   }
 
   async existByEmail(email: string): Promise<boolean> {
