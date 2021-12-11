@@ -21,6 +21,10 @@ ex) 여러 DB source 사용하면 데이터 출처가 많아짐
 export class CatsRespository {
   constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
 
+  async findAll() {
+    return await this.catModel.find();
+  }
+
   async existByEmail(email: string): Promise<boolean> {
     const result = await this.catModel.exists({ email });
     return result;

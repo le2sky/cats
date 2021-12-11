@@ -19,10 +19,10 @@ import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { multerOptions } from 'src/common/utils/multer.options';
-import { Cat } from './cats.schema';
-import { CatsService } from './cats.service';
-import { ReadOnlyCatDto } from './dto/cat.dto';
-import { CatRequestDto } from './dto/cats.request.dto';
+import { Cat } from '../cats.schema';
+import { CatsService } from '../services//cats.service';
+import { ReadOnlyCatDto } from '../dto/cat.dto';
+import { CatRequestDto } from '../dto/cats.request.dto';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -77,5 +77,11 @@ export class CatsController {
     //return 'uploadImg';
     //return { image: `http://localhost:8000/media/cats/${files[0].filename}` };
     return this.catsService.uploadImg(cat, files);
+  }
+
+  @ApiOperation({ summary: '모든 고양이 가져오기' })
+  @Get('all')
+  getAllcat() {
+    return this.catsService.getAllcat();
   }
 }

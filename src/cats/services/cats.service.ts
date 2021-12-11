@@ -1,12 +1,19 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CatRequestDto } from './dto/cats.request.dto';
+import { CatRequestDto } from '../dto/cats.request.dto';
 import * as bcrypt from 'bcrypt';
-import { CatsRespository } from './cat.repository';
-import { Cat } from './cats.schema';
+import { CatsRespository } from '../cat.repository';
+import { Cat } from '../cats.schema';
 
 @Injectable()
 export class CatsService {
   constructor(private readonly catsRepository: CatsRespository) {}
+
+  async getAllcat() {
+    const allCat = await this.catsRepository.findAll();
+    const readOnlyCats = allCat.map((cat) => cat.readOnlyData);
+    return readOnlyCats;
+  }
+
   async signUp(body: CatRequestDto) {
     const { email, name, password } = body;
     const isCatExist = await this.catsRepository.existByEmail(email);
