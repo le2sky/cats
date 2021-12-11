@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
+import { Types } from 'mongoose';
 import { CommentsService } from '../services/comments.service';
 import { CommentsCreateDto } from './dto/comments.create.dto';
 
